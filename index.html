@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue js ToDo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+
+<div class="container mt-4">
+<h3 class="text-center text-dark"><b>ToDo App</b></h3>
+<hr>
+<div class="card card body" v-if="errortxt.length>0">
+<div class="alert alert-danger">
+
+{{errortxt}}
+
+</div>
+
+</div>
+
+<div class="card card body" v-if="successtxt.length>0">
+    <div class="alert alert-success">
+    
+    {{successtxt}}
+    
+    </div>
+    
+    </div>
+
+
+<div class="card card body m-2">
+<div class="row">
+
+    <div class="col-sm-3">
+<p>Title</p> {{title}}
+     <input type="text" v-model="title" class="form-control" >   
+    </div>
+    <div class="col-sm-6">
+        <p>Description</p> {{description}}
+<textarea v-model="description" cols="30" rows="5" class="form-control"></textarea>
+
+    </div>
+    <div class="col-sm-3">
+<button class="btn btn-success" @click="add">
+
+Add
+
+</button>
+    </div>
+</div>
+
+
+</div>
+<hr>
+
+<div class="card card body mt-3 p-3" v-for="(data,index) in datas">
+<button @click="deleteData(index)" class="btn btn-danger mb-2">X</button>
+<h3>{{data.title}}</h3>
+<div>
+
+    {{data.description}}
+
+</div>
+
+
+</div>
+</div>
+
+</div>
+<script>
+
+var app = new Vue({
+
+el:'#app',
+data:{
+
+title:'',
+description:'',
+datas:[],
+errortxt:'',
+successtxt:'',
+
+},
+
+
+mounted(){
+
+this.datas.push(
+
+{
+'title':'First data',
+'description':'First data Description'
+},
+
+{
+'title':'Second data',
+'description':'Second data Description'
+}
+
+)
+
+
+
+},
+
+methods:{
+
+add(){
+
+let title = this.title;
+let description = this.description;
+if(title.length >0 && description.length >0){
+
+let singleData = {
+
+'title':title,
+'description':description
+
+}
+this.datas.push(singleData);
+this.title="";
+this.description="";
+this.successtxt="Data Added Successfully";
+this.errortxt=""
+}
+else{
+    this.successtxt="";
+    this.errortxt="Please Fill the Fields";
+return;
+}
+},
+deleteData(dataIndex){
+
+this.datas.splice(dataIndex,1)
+
+}
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+});
+
+
+</script>
+
+</body>
+</html>
